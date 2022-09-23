@@ -1,0 +1,12 @@
+.option {
+    padding: 5px;
+}
+
+.bool_option {
+    display: flex;
+}
+
+.date_option {
+    display: flex;
+    flex-direction: column;
+}

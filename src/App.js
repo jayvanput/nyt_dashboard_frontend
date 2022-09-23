@@ -22,6 +22,9 @@ class App extends React.Component {
       endDate: null,
       entries: [],
       average_solve: "",
+      min_solve: "",
+      last_solve: "",
+      total_solves: ""
     }
     this.handleAPICall = this.handleAPICall.bind(this);
   };
@@ -55,19 +58,46 @@ class App extends React.Component {
       params
     }).then(response => {
       const entries = response.data
+      let solve_times = entries.map((entry) => {
+        return entry["elapsed_seconds"]
+      })
+      const average_solve = this.getAverageTime(solve_times)
+      const min_solve = this.getMinTime(solve_times)
+      let last_solve = ""
+      let total_solves = ""
+      if (entries) {
+        last_solve = this.convertSecondsToStringTime(entries[0]["elapsed_seconds"])
+        total_solves = `${entries.length}`
+      }
       this.setState({
-        entries: entries
-      }, () => {
-        let sum = 0
-        for(let i=0;i<entries.length;i++) {
-          sum += entries[i]["elapsed_seconds"]
-        }
-        const avg = sum / entries.length
-        const minutes = Math.floor(avg / 60)
-        const seconds = Math.round(avg % 60).toString().padStart(2, '0');
-        this.setState({average_solve: `${minutes}:${seconds}`})
+        entries: entries,
+        average_solve,
+        min_solve,
+        last_solve,
+        total_solves
       })
     })
+  }
+
+  convertSecondsToStringTime(number) {
+    const minutes = Math.floor(number / 60)
+    const seconds = Math.round(number % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`
+  }
+  getMinTime(arr) {
+    let min = Math.min(...arr)
+    let str_time = this.convertSecondsToStringTime(min)
+    return str_time
+  }
+
+  getAverageTime(arr) {
+    let sum = 0
+    for(let i=0;i<arr.length;i++) {
+      sum += arr[i]
+    }
+    const avg = sum / arr.length
+    let str_time = this.convertSecondsToStringTime(avg)
+    return str_time
   }
 
   handleDayFilter(event) {
@@ -88,12 +118,16 @@ class App extends React.Component {
 
   handleStartDateFilter(event) {
     let start_date = event.target.value;
-    this.setState(prevState => ({startDate: start_date}))
+    this.setState(prevState => ({startDate: start_date}), () => {
+      this.handleAPICall(event)
+    })
   }
 
   handleEndDateFilter(event) {
     let end_date = event.target.value;
-    this.setState(prevState => ({endDate: end_date}))
+    this.setState(prevState => ({endDate: end_date}), () => {
+      this.handleAPICall(event)
+    })
   }
 
   render() {
@@ -132,15 +166,16 @@ class App extends React.Component {
               <h1>{this.state.average_solve}</h1>
             </div>
             <div class="card">
-              <h2>Best Time</h2>
+              <h2>Best Solve</h2>
+              <h1>{this.state.min_solve}</h1>
             </div>
             <div class="card">
               <h2>Last Time</h2>
-              <h1>08:06</h1>
+              <h1>{this.state.last_solve}</h1>
             </div>
             <div class="card">
               <h2>Total Solves</h2>
-              <h1>637</h1>
+              <h1>{this.state.total_solves}</h1>
             </div>
           </div>
         </div>
