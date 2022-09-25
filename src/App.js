@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios'
 import {FilterPanel, Filter, DateFilter} from "./Filter"
 import {StatCards} from "./Statcard"
-
+import {Graph} from "./Graph"
 class App extends React.Component {
 
   constructor(props) {
@@ -99,6 +99,11 @@ class App extends React.Component {
     let solve_times = this.state.entries.map((entry) => {
       return entry["elapsed_seconds"]
     })
+    let entries_sort = this.state.entries.sort(function(a, b) {
+      const date1 = new Date(a["solve_date"])
+      const date2 = new Date(b["solve_date"])
+      return date1 - date2
+  })
     return (
       <div>
         <div id="dashboard">
@@ -120,11 +125,7 @@ class App extends React.Component {
               {/* <input type="submit" onClick={(e) => this.handleAPICall(e)}></input> */}
             </div>
             <div className="content" id="graph">
-            <div>
-          {this.state.entries.map(entry => {
-            return <div key={entry.id}>{entry.puzzle_date} {entry.elapsed_seconds} {entry.day}</div>
-          })}
-        </div>
+              <Graph entries={entries_sort}></Graph>
             </div>
           </div>
           <StatCards solve_times={solve_times}></StatCards>
