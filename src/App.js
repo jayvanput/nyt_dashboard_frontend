@@ -50,7 +50,7 @@ class App extends React.Component {
       params.append("end_date", this.state.endDate)
     }
     // console.log(params)
-    axios.get("http://localhost:8000/api/entries", {
+    axios.get("http://172.105.11.42/api/entries/", {
       auth: {
         username: "jvp119",
         password: process.env.REACT_APP_PASSWORD // Hidden from last commit & value has been changed.

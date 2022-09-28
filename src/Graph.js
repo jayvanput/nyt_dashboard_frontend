@@ -20,30 +20,36 @@ export class Graph extends React.Component {
             labels: labels,
             datasets: [{
                 label: "My dataset",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: '#1976d2',
+                borderColor: '#1976d2',
                 data: times
             }]
+        }
+        let options = {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    ticks: {
+                    }
+                },
+                xAxis: {
+                    ticks: {
+                        maxTicksLimit: 12
+                    }
+                }
+            },
+            maintainAspectRatio: false
         }
         return (
             <div id="graph_box">
                 <Line
                     data={data}
-                    options={ {
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        maintainAspectRatio: false,
-                    }}
+                    options={options}
                 />
             </div>
         )
