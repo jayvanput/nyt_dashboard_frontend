@@ -18,14 +18,22 @@ class App extends React.Component {
         Saturday: false,
         Sunday: false
       },
-      usedHelp: false,
-      startDate: null,
-      endDate: null,
+      usedHelp: true,
+      startDate: this.getDateString(10),
+      endDate: this.getDateString(),
       entries: [],
     }
     this.handleAPICall = this.handleAPICall.bind(this);
   };
   
+  getDateString(offset=0) {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = `${today.getMonth() + 1}`.padStart(2,0);
+    let day = today.getDate() - offset;
+    console.log(`${year}-${month}-${day}`)
+    return `${year}-${month}-${day}`
+  }
   componentDidMount() {
     this.handleAPICall()
   }
@@ -115,12 +123,12 @@ class App extends React.Component {
               </div>
               <div className="filter">
                 Help
-                <Filter onToggle={(e) => this.handleHelpFilter(e)} value="Help"></Filter>
+                <Filter onToggle={(e) => this.handleHelpFilter(e)} value="Help" checked={true}></Filter>
               </div>
               <div className="filter">
                 Date Range
-                <DateFilter onToggle={(e) => this.handleStartDateFilter(e)} value="Start Date"></DateFilter>
-                <DateFilter onToggle={(e) => this.handleEndDateFilter(e)} value="End Date"></DateFilter>
+                <DateFilter onToggle={(e) => this.handleStartDateFilter(e)} label="Start Date" startvalue={this.state.startDate}></DateFilter>
+                <DateFilter onToggle={(e) => this.handleEndDateFilter(e)} label="End Date" startvalue={this.state.endDate}></DateFilter>
               </div>
               {/* <input type="submit" onClick={(e) => this.handleAPICall(e)}></input> */}
             </div>
