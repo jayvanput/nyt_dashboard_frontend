@@ -10,16 +10,26 @@ export class Graph extends React.Component {
     }
     
     render() {
-        const labels = this.props.entries.map((entry) => {
+        let sorted_entries = this.props.entries.map((entry) => {
+            return {
+                "puzzle_date":entry["puzzle_date"],
+                "elapsed_seconds": entry["elapsed_seconds"], 
+                "solve_date": entry["solve_date"]
+            }
+          }).sort((a, b) => a.puzzle_date.localeCompare(b.puzzle_date));
+        console.log(sorted_entries)
+        const labels = sorted_entries.map((entry) => {
             return entry["solve_date"]
           });
-        const times = this.props.entries.map((entry) => {
+        const times = sorted_entries.map((entry) => {
             return entry["elapsed_seconds"]
           });
+        const puzzle_dates = sorted_entries.map((entry) => {
+            return entry["puzzle_date"]
+        }); 
         let data = {
             labels: labels,
             datasets: [{
-                label: "My dataset",
                 backgroundColor: '#1976d2',
                 borderColor: '#1976d2',
                 data: times

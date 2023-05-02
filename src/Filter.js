@@ -4,7 +4,8 @@ import './Filter.css'
 export function Filter(props) {
     return (
         <div className="option bool_option">
-        <input type="date" name={props.label} onChange={props.onToggle} value={props.startvalue}></input>            <label htmlFor={props.value}>{props.value}</label>
+            <input type="checkbox" name={props.value} value={props.value} onChange={props.onToggle} defaultChecked={props.checked}></input>
+            <label htmlFor={props.value}>{props.value}</label>
         </div>
     )
 }

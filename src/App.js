@@ -27,10 +27,11 @@ class App extends React.Component {
   };
   
   getDateString(offset=0) {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = `${today.getMonth() + 1}`.padStart(2,0);
-    let day = today.getDate() - offset;
+    var date = new Date();
+    date.setDate(date.getDate() - offset);
+    let year = date.getFullYear();
+    let month = `${date.getMonth() + 1}`.padStart(2,0);
+    let day = date.getDate();
     console.log(`${year}-${month}-${day}`)
     return `${year}-${month}-${day}`
   }
@@ -61,14 +62,16 @@ class App extends React.Component {
     axios.get("http://172.105.11.42/api/entries/", {
       auth: {
         username: "jvp119",
-        password: process.env.REACT_APP_PASSWORD // Hidden from last commit & value has been changed.
+        password: "N4aCXiE3akAK" // Hidden from last commit & value has been changed.
       }, 
-      params
+      params: params
     }).then(response => {
       const entries = response.data
       this.setState({
         entries: entries,
       })
+    }).catch(error => {
+      console.error(error.response.data)
     })
   }  
 
