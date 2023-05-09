@@ -17,7 +17,6 @@ export class Graph extends React.Component {
                 "solve_date": entry["solve_date"]
             }
           }).sort((a, b) => a.puzzle_date.localeCompare(b.puzzle_date));
-        console.log(sorted_entries)
         const labels = sorted_entries.map((entry) => {
             return entry["solve_date"]
           });

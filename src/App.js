@@ -32,7 +32,6 @@ class App extends React.Component {
     let year = date.getFullYear();
     let month = `${date.getMonth() + 1}`.padStart(2,0);
     let day = date.getDate();
-    console.log(`${year}-${month}-${day}`)
     return `${year}-${month}-${day}`
   }
   componentDidMount() {
@@ -58,11 +57,11 @@ class App extends React.Component {
     if (this.state.endDate) {
       params.append("end_date", this.state.endDate)
     }
-    // console.log(params)
+
     axios.get("http://172.105.11.42/api/entries/", {
       auth: {
-        username: "jvp119",
-        password: "N4aCXiE3akAK" // Hidden from last commit & value has been changed.
+        username: process.env.REACT_APP_USERNAME,
+        password:  process.env.REACT_APP_PASSWORD // Hidden from last commit & value has been changed (again :( ).
       }, 
       params: params
     }).then(response => {
@@ -118,7 +117,7 @@ class App extends React.Component {
     return (
       <div>
         <div id="dashboard">
-          <div className="row">
+          <div className="row" id="data">
             <div className="content" id="filters">
               <div className="filter">
                 Weekday
