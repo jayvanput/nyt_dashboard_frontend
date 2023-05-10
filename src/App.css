@@ -1,3 +1,9 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
 #dashboard {
     margin: auto;
     max-width: 992px;

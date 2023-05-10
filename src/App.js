@@ -4,6 +4,7 @@ import axios from 'axios'
 import {FilterPanel, Filter, DateFilter} from "./Filter"
 import {StatCards} from "./Statcard"
 import {Graph} from "./Graph"
+import {Header} from "./Header"
 class App extends React.Component {
 
   constructor(props) {
@@ -116,6 +117,7 @@ class App extends React.Component {
   })
     return (
       <div>
+        <Header></Header>
         <div id="dashboard">
           <div className="row" id="data">
             <div className="content" id="filters">
